@@ -2,7 +2,7 @@
 #define CAFFE_UTIL_CUDNN_H_
 #ifdef USE_CUDNN
 
-#include <cudnn.h>
+#include <cudnn_v2-rc2.h>
 
 #include "caffe/common.hpp"
 #include "caffe/proto/caffe.pb.h"
@@ -14,7 +14,7 @@
       << cudnnGetErrorString(status); \
   } while (0)
 
-inline const char* cudnnGetErrorString(cudnnStatus_t status) {
+inline const char* CUDNNWINAPI cudnnGetErrorString(cudnnStatus_t status) {
   switch (status) {
     case CUDNN_STATUS_SUCCESS:
       return "CUDNN_STATUS_SUCCESS";

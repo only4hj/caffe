@@ -7,6 +7,7 @@
 #include "google/protobuf/message.h"
 #include "hdf5.h"
 #include "hdf5_hl.h"
+#include "mkstemp.h"
 
 #include "caffe/blob.hpp"
 #include "caffe/common.hpp"
@@ -26,7 +27,12 @@ inline void MakeTempFilename(string* temp_filename) {
   strcpy(temp_filename_cstr, temp_filename->c_str());
   int fd = mkstemp(temp_filename_cstr);
   CHECK_GE(fd, 0) << "Failed to open a temporary file at: " << *temp_filename;
+
+#ifndef _MSC_VER
   close(fd);
+#else
+  _close(fd);
+#endif
   *temp_filename = temp_filename_cstr;
   delete[] temp_filename_cstr;
 }
@@ -37,7 +43,12 @@ inline void MakeTempDir(string* temp_dirname) {
   char* temp_dirname_cstr = new char[temp_dirname->size() + 1];
   // NOLINT_NEXT_LINE(runtime/printf)
   strcpy(temp_dirname_cstr, temp_dirname->c_str());
+#ifndef _MSC_VER
   char* mkdtemp_result = mkdtemp(temp_dirname_cstr);
+#else
+  errno_t mkdtemp_result = _mktemp_s(temp_dirname_cstr, sizeof(temp_dirname_cstr));
+#endif
+
   CHECK(mkdtemp_result != NULL)
       << "Failed to create a temporary directory at: " << *temp_dirname;
   *temp_dirname = temp_dirname_cstr;
