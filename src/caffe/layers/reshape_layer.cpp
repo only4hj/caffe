@@ -90,6 +90,6 @@ void ReshapeLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
 }
 
 INSTANTIATE_CLASS(ReshapeLayer);
-REGISTER_LAYER_CLASS(Reshape);
+//REGISTER_LAYER_CLASS(Reshape);
 
 }  // namespace caffe

@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caffe-main", "..\caffe-main
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "py-caffe", "..\py-caffe\py-caffe.vcxproj", "{650047C1-13E6-4529-9EAE-988356403A15}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "caffe-test", "..\caffe-test\caffe-test.vcxproj", "{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -55,6 +57,18 @@ Global
 		{650047C1-13E6-4529-9EAE-988356403A15}.Release|Win32.Build.0 = Release|Win32
 		{650047C1-13E6-4529-9EAE-988356403A15}.Release|x64.ActiveCfg = Release|x64
 		{650047C1-13E6-4529-9EAE-988356403A15}.Release|x64.Build.0 = Release|x64
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|Win32.Build.0 = Debug|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|x64.ActiveCfg = Debug|x64
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Debug|x64.Build.0 = Debug|x64
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|Win32.ActiveCfg = Release|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|Win32.Build.0 = Release|Win32
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|x64.ActiveCfg = Release|x64
+		{AE6D6F18-87AA-4E93-8F80-D65C164D01AE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
