@@ -91,3 +91,9 @@ LOCK
 LOG*
 CURRENT
 MANIFEST-*
+/bin/
+/3rdparty/
+/boost_python-vc120-mt-1_56.dll
+/boost_python-vc120-mt-gd-1_56.dll
+/libglog.dll
+/libopenblas.dll

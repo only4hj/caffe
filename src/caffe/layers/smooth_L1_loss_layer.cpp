@@ -12,7 +12,10 @@ namespace caffe {
 template <typename Dtype>
 void SmoothL1LossLayer<Dtype>::LayerSetUp(
   const vector<Blob<Dtype>*>& bottom, const vector<Blob<Dtype>*>& top) {
-  has_weights_ = (bottom.size() == 3);
+  has_weights_ = (bottom.size() >= 3);
+
+  if (bottom.size() > 3)
+	  batch_size_ = bottom[3]->data_at(0, 0, 0, 0);
 }
 
 template <typename Dtype>
