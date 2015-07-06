@@ -82,6 +82,15 @@ void ReshapeLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
     const int inferred_dim = bottom[0]->count() / explicit_count;
     top_shape[start_axis + inferred_axis_] = inferred_dim;
   }
+
+
+  // DJDJ
+  top_shape[0] = bottom[0]->shape(0);
+  top_shape[1] = bottom[0]->shape(1) / 2;
+  top_shape[2] = 2;
+  top_shape[3] = bottom[0]->shape(2);
+  top_shape[4] = bottom[0]->shape(3);
+
   top[0]->Reshape(top_shape);
   CHECK_EQ(top[0]->count(), bottom[0]->count())
       << "output count must match input count";

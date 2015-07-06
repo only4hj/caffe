@@ -865,6 +865,12 @@ message SoftmaxParameter {
   // from the end (e.g., -1 for the last axis).
   // Any other axes will be evaluated as independent softmaxes.
   optional int32 axis = 2 [default = 1];
+  
+  // The range to perform the softmax
+  // By default the softmax performs for all the data in the axis
+  // If this value is set to a number except 0 then the softmax performs
+  // for the data with this range.
+  optional int32 range = 3 [default = 0];
 }
 
 message TanHParameter {

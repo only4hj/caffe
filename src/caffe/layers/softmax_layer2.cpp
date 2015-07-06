@@ -8,25 +8,37 @@
 namespace caffe {
 
 template <typename Dtype>
-void SoftmaxLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
+void SoftmaxLayer2<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top) {
   softmax_axis_ =
       bottom[0]->CanonicalAxisIndex(this->layer_param_.softmax_param().axis());
   range_ = this->layer_param_.softmax_param().range();
-  top[0]->ReshapeLike(*bottom[0]);
+  
+  // DJDJ
+  //top[0]->ReshapeLike(*bottom[0]);
+  int bottom_axis_size = bottom[0]->shape()[softmax_axis_];
+  vector<int> top_dims = { 2, bottom_axis_size / 2, 2, 2, 3 };
+  top[0]->Reshape(top_dims);
+
   vector<int> mult_dims(1, bottom[0]->shape(softmax_axis_));
   sum_multiplier_.Reshape(mult_dims);
   Dtype* multiplier_data = sum_multiplier_.mutable_cpu_data();
   caffe_set(sum_multiplier_.count(), Dtype(1), multiplier_data);
-  outer_num_ = bottom[0]->count(0, softmax_axis_);
-  inner_num_ = bottom[0]->count(softmax_axis_ + 1);
+
+  // DJDJ
+  //outer_num_ = bottom[0]->count(0, softmax_axis_);
+  //inner_num_ = bottom[0]->count(softmax_axis_ + 1);
+
+  outer_num_ = top[0]->count(0, softmax_axis_ + 1);
+  inner_num_ = top[0]->count(softmax_axis_ + 2);
+
   vector<int> scale_dims = bottom[0]->shape();
   scale_dims[softmax_axis_] = 1;
   scale_.Reshape(scale_dims);
 }
 
 template <typename Dtype>
-void SoftmaxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+void SoftmaxLayer2<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   const Dtype* bottom_data = bottom[0]->cpu_data();
   Dtype* top_data = top[0]->mutable_cpu_data();
@@ -59,10 +71,13 @@ void SoftmaxLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       top_data += inner_num_;
     }
   }
+
+  // DJDJ
+  top[0]->ReshapeLike(*bottom[0]);
 }
 
 template <typename Dtype>
-void SoftmaxLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
+void SoftmaxLayer2<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
     const vector<bool>& propagate_down,
     const vector<Blob<Dtype>*>& bottom) {
   const Dtype* top_diff = top[0]->cpu_diff();
@@ -89,9 +104,9 @@ void SoftmaxLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
 
 
 #ifdef CPU_ONLY
-STUB_GPU(SoftmaxLayer);
+STUB_GPU(SoftmaxLayer2);
 #endif
 
-INSTANTIATE_CLASS(SoftmaxLayer);
+INSTANTIATE_CLASS(SoftmaxLayer2);
 
 }  // namespace caffe

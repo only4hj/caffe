@@ -40,6 +40,26 @@ class MultiDeviceTest : public ::testing::Test {
 
 typedef ::testing::Types<float, double> TestDtypes;
 
+struct FloatCPU {
+	typedef float Dtype;
+	static const Caffe::Brew device = Caffe::CPU;
+};
+
+struct DoubleCPU {
+	typedef double Dtype;
+	static const Caffe::Brew device = Caffe::CPU;
+};
+
+struct FloatGPU {
+	typedef float Dtype;
+	static const Caffe::Brew device = Caffe::GPU;
+};
+
+struct DoubleGPU {
+	typedef double Dtype;
+	static const Caffe::Brew device = Caffe::GPU;
+};
+
 template <typename TypeParam>
 struct CPUDevice {
   typedef TypeParam Dtype;
