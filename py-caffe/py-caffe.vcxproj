@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\python\caffe\layer_factory.cpp" />
+    <ClCompile Include="..\python\caffe\nms2.cpp" />
     <ClCompile Include="..\python\caffe\_caffe.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
