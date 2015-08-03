@@ -24,8 +24,11 @@
 #define PyArray_SetBaseObject(arr, x) (PyArray_BASE(arr) = (x))
 #endif
 
-std::vector<int> nms(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
-		int data_size, float thresh);
+std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
+	int data_size, float thresh, int max_candidate);
+
+std::vector<int> nms_cuda(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
+		int data_size, float thresh, int max_candidate);
 
 void printHaha();
 
@@ -82,8 +85,8 @@ void set_log(string filename) {
 }
 
 std::vector<int> nms_cpp0(bp::object x1s_obj, bp::object y1s_obj,
-		bp::object x2s_obj, bp::object y2s_obj, 
-		bp::object scores_obj, Dtype threashold) {
+	bp::object x2s_obj, bp::object y2s_obj,
+	bp::object scores_obj, Dtype threashold, int max_candidate) {
 	// check that we were passed appropriately-sized contiguous memory
 	PyArrayObject* x1s_arr =
 		reinterpret_cast<PyArrayObject*>(x1s_obj.ptr());
@@ -106,13 +109,47 @@ std::vector<int> nms_cpp0(bp::object x1s_obj, bp::object y1s_obj,
 
 	printHaha();
 
-	return nms(static_cast<Dtype*>(PyArray_DATA(x1s_arr)),
+	return nms_cpp(static_cast<Dtype*>(PyArray_DATA(x1s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(y1s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(x2s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(y2s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(scores_arr)),
 		PyArray_DIMS(x1s_arr)[0],
-		threashold);
+		threashold,
+		max_candidate);
+}
+
+std::vector<int> nms_cuda0(bp::object x1s_obj, bp::object y1s_obj,
+	bp::object x2s_obj, bp::object y2s_obj,
+	bp::object scores_obj, Dtype threashold, int max_candidate) {
+	// check that we were passed appropriately-sized contiguous memory
+	PyArrayObject* x1s_arr =
+		reinterpret_cast<PyArrayObject*>(x1s_obj.ptr());
+
+	PyArrayObject* y1s_arr =
+		reinterpret_cast<PyArrayObject*>(y1s_obj.ptr());
+	PyArrayObject* x2s_arr =
+		reinterpret_cast<PyArrayObject*>(x2s_obj.ptr());
+	PyArrayObject* y2s_arr =
+		reinterpret_cast<PyArrayObject*>(y2s_obj.ptr());
+	PyArrayObject* scores_arr =
+		reinterpret_cast<PyArrayObject*>(scores_obj.ptr());
+
+	if (PyArray_DIMS(x1s_arr)[0] != PyArray_DIMS(y1s_arr)[0] ||
+		PyArray_DIMS(x1s_arr)[0] != PyArray_DIMS(x2s_arr)[0] ||
+		PyArray_DIMS(x1s_arr)[0] != PyArray_DIMS(y2s_arr)[0] ||
+		PyArray_DIMS(x1s_arr)[0] != PyArray_DIMS(scores_arr)[0]) {
+		throw std::runtime_error("data must have the same dimension");
+	}
+
+	return nms_cuda(static_cast<Dtype*>(PyArray_DATA(x1s_arr)),
+		static_cast<Dtype*>(PyArray_DATA(y1s_arr)),
+		static_cast<Dtype*>(PyArray_DATA(x2s_arr)),
+		static_cast<Dtype*>(PyArray_DATA(y2s_arr)),
+		static_cast<Dtype*>(PyArray_DATA(scores_arr)),
+		PyArray_DIMS(x1s_arr)[0],
+		threashold, 
+		max_candidate);
 }
 
 // Net constructor for passing phase as int
@@ -246,6 +283,7 @@ BOOST_PYTHON_MODULE(_caffe) {
   bp::def("set_random_seed", &Caffe::set_random_seed);
   bp::def("set_log", &set_log);
   bp::def("nms_cpp", &nms_cpp0);
+  bp::def("nms_cuda", &nms_cuda0);
 
   bp::class_<Net<Dtype>, shared_ptr<Net<Dtype> >, boost::noncopyable >("Net",
     bp::no_init)

@@ -28,8 +28,8 @@ void printHaha() {
 	printf("Haha\n");
 }
 
-std::vector<int> nms(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
-		int data_size, float thresh) {
+std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
+	int data_size, float thresh, int max_candidate) {
 
 	std::vector<int> keep;
 	int keep_no = 0;
@@ -45,7 +45,10 @@ std::vector<int> nms(float* x1s, float* y1s, float* x2s, float* y2s, float* scor
 
 		keep.push_back(i);
 		keep_no++;
-		
+
+		if (keep_no == max_candidate)
+			break;
+
 		/*
 		printf("x1s[0] = %.3f\n", x1s[0]);
 		printf("x1s[1] = %.3f\n", x1s[1]);
@@ -75,9 +78,9 @@ std::vector<int> nms(float* x1s, float* y1s, float* x2s, float* y2s, float* scor
 			float yy1 = max(iy1, y1s[j]);
 			float xx2 = min(ix2, x2s[j]);
 			float yy2 = min(iy2, y2s[j]);
-			int w = max(0.0, xx2 - xx1 + 1);
-			int h = max(0.0, yy2 - yy1 + 1);
-			int inter = w * h;
+			float w = max(0.0, xx2 - xx1 + 1);
+			float h = max(0.0, yy2 - yy1 + 1);
+			float inter = w * h;
 			float ovr = (float)inter / float(iArea + jArea - inter);
 			if (ovr >= thresh)
 				suppressed[j] = 1;
@@ -96,6 +99,7 @@ std::vector<int> nms(float* x1s, float* y1s, float* x2s, float* y2s, float* scor
 int nms2_main(void) {
 	DWORD dwTime = 0;
 	float thresh = 0.2;
+	int max_candidate = 123;
 	std::vector<float> x1s;
 	std::vector<float> y1s;
 	std::vector<float> x2s;
@@ -119,8 +123,8 @@ int nms2_main(void) {
 
 	dwTime = timeGetTime();
 
-	std::vector<int> keep = nms(x1s.data(), y1s.data(), x2s.data(), y2s.data(), scores.data(), 
-					thresh, data_size);
+	std::vector<int> keep = nms_cpp(x1s.data(), y1s.data(), x2s.data(), y2s.data(), scores.data(), 
+					data_size, thresh, max_candidate);
 
 	dwTime = timeGetTime() - dwTime;
 

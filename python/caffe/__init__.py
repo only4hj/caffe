@@ -1,6 +1,6 @@
 from .pycaffe import Net, SGDSolver
 from ._caffe import set_mode_cpu, set_mode_gpu, set_random_seed, set_device, \
-                    Layer, get_solver, set_log, nms_cpp
+                    Layer, get_solver, set_log, nms_cpp, nms_cuda
 from .proto.caffe_pb2 import TRAIN, TEST
 from .classifier import Classifier
 from .detector import Detector
