@@ -242,6 +242,7 @@
     <ClInclude Include="..\include\caffe\common_layers.hpp" />
     <ClInclude Include="..\include\caffe\data_layers.hpp" />
     <ClInclude Include="..\include\caffe\data_transformer.hpp" />
+    <ClInclude Include="..\include\caffe\fast_rcnn_layers.hpp" />
     <ClInclude Include="..\include\caffe\filler.hpp" />
     <ClInclude Include="..\include\caffe\internal_thread.hpp" />
     <ClInclude Include="..\include\caffe\layer.hpp" />
@@ -298,7 +299,9 @@
     <CudaCompile Include="..\src\caffe\layers\prelu_layer.cu" />
     <CudaCompile Include="..\src\caffe\layers\reduction_layer.cu" />
     <CudaCompile Include="..\src\caffe\layers\relu_layer.cu" />
-    <CudaCompile Include="..\src\caffe\layers\roi_pooling_layer.cu" />
+    <CudaCompile Include="..\src\caffe\layers\roi_pooling_layer.cu">
+      <CodeGeneration Condition="'$(Configuration)|$(Platform)'=='Release|x64'">compute_50,sm_50</CodeGeneration>
+    </CudaCompile>
     <CudaCompile Include="..\src\caffe\layers\sigmoid_cross_entropy_loss_layer.cu" />
     <CudaCompile Include="..\src\caffe\layers\sigmoid_layer.cu" />
     <CudaCompile Include="..\src\caffe\layers\silence_layer.cu" />
