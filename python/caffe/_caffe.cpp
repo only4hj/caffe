@@ -30,8 +30,6 @@ std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* 
 std::vector<int> nms_cuda(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
 		int data_size, float thresh, int max_candidate);
 
-void printHaha();
-
 namespace bp = boost::python;
 
 namespace caffe {
@@ -106,8 +104,6 @@ std::vector<int> nms_cpp0(bp::object x1s_obj, bp::object y1s_obj,
 		PyArray_DIMS(x1s_arr)[0] != PyArray_DIMS(scores_arr)[0]) {
 		throw std::runtime_error("data must have the same dimension");
 	}
-
-	printHaha();
 
 	return nms_cpp(static_cast<Dtype*>(PyArray_DATA(x1s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(y1s_arr)),

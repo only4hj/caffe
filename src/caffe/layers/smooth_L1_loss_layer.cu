@@ -29,15 +29,14 @@ void SmoothL1LossLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
   int count = bottom[0]->count();
 
-
-  //printf ("SmoothL1LossLayer::Forward_gpu()\n");
-  Blob<Dtype>* bbox_targets = bottom[1];
-  Blob<Dtype>* bbox_loss_weights = bottom[2];
-  Blob<Dtype>* labels = bottom[4];
-
   int DEBUG = 0;
 
   if (DEBUG == 1) {
+	  //printf ("SmoothL1LossLayer::Forward_gpu()\n");
+	  Blob<Dtype>* bbox_targets = bottom[1];
+	  Blob<Dtype>* bbox_loss_weights = bottom[2];
+	  Blob<Dtype>* labels = bottom[4];
+
 	  int label_pos_no = 0;
 	  int label_zero_no = 0;
 	  int label_neg_no = 0;
