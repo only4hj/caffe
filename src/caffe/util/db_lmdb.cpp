@@ -4,7 +4,9 @@
 
 #include <string>
 
+#ifdef _MSC_VER
 #include <direct.h>
+#endif
 
 namespace caffe { namespace db {
 

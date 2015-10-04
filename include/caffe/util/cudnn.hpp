@@ -2,7 +2,8 @@
 #define CAFFE_UTIL_CUDNN_H_
 #ifdef USE_CUDNN
 
-#include <cudnn_v2-rc2.h>
+//#include <cudnn_v2-rc2.h>
+#include <cudnn.h>
 
 #include "caffe/common.hpp"
 #include "caffe/proto/caffe.pb.h"

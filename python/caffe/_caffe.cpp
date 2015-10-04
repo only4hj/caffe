@@ -17,15 +17,20 @@
 #include "caffe/caffe.hpp"
 #include "caffe/python_layer.hpp"
 
+#ifdef _MSC_VER
+std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
+	int data_size, float thresh, int max_candidate);
+#else
+#include "nms2.cpp"
+#include "layer_factory.cpp"
+#endif
+
 // Temporary solution for numpy < 1.7 versions: old macro, no promises.
 // You're strongly advised to upgrade to >= 1.7.
 #ifndef NPY_ARRAY_C_CONTIGUOUS
 #define NPY_ARRAY_C_CONTIGUOUS NPY_C_CONTIGUOUS
 #define PyArray_SetBaseObject(arr, x) (PyArray_BASE(arr) = (x))
 #endif
-
-std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
-	int data_size, float thresh, int max_candidate);
 
 std::vector<int> nms_cuda(float* x1s, float* y1s, float* x2s, float* y2s, float* scores,
 		int data_size, float thresh, int max_candidate);
@@ -138,6 +143,7 @@ std::vector<int> nms_cuda0(bp::object x1s_obj, bp::object y1s_obj,
 		throw std::runtime_error("data must have the same dimension");
 	}
 
+#ifdef _MSC_VER
 	return nms_cuda(static_cast<Dtype*>(PyArray_DATA(x1s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(y1s_arr)),
 		static_cast<Dtype*>(PyArray_DATA(x2s_arr)),
@@ -146,6 +152,9 @@ std::vector<int> nms_cuda0(bp::object x1s_obj, bp::object y1s_obj,
 		PyArray_DIMS(x1s_arr)[0],
 		threashold, 
 		max_candidate);
+#else
+		throw std::runtime_error("nms_cuda is not supported.");
+#endif
 }
 
 // Net constructor for passing phase as int

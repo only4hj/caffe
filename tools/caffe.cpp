@@ -290,7 +290,11 @@ int time() {
 }
 RegisterBrewFunction(time);
 
+#ifdef _MSC_VER
 int caffe_main(int argc, char** argv) {
+#else
+int main(int argc, char** argv) {
+#endif
   // Print output to stderr (while still logging).
   FLAGS_alsologtostderr = 1;
   // Usage message.

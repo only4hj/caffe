@@ -1,11 +1,11 @@
-#include <Windows.h>
+//#include <Windows.h>
 #include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 //#pragma comment(lib, "cudaRT.lib")
-#pragma comment(lib, "winmm.lib")
+//#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -78,8 +78,8 @@ std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* 
 			float yy1 = max(iy1, y1s[j]);
 			float xx2 = min(ix2, x2s[j]);
 			float yy2 = min(iy2, y2s[j]);
-			float w = max(0.0, xx2 - xx1 + 1);
-			float h = max(0.0, yy2 - yy1 + 1);
+			float w = max((float)0.0, xx2 - xx1 + 1);
+			float h = max((float)0.0, yy2 - yy1 + 1);
 			float inter = w * h;
 			float ovr = (float)inter / float(iArea + jArea - inter);
 			if (ovr >= thresh)
@@ -96,6 +96,7 @@ std::vector<int> nms_cpp(float* x1s, float* y1s, float* x2s, float* y2s, float* 
 	return keep;
 }
 
+/*
 int nms2_main(void) {
 	DWORD dwTime = 0;
 	float thresh = 0.2;
@@ -141,3 +142,4 @@ int nms2_main(void) {
 
 	return 0;
 }
+*/

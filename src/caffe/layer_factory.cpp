@@ -34,7 +34,7 @@ shared_ptr<Layer<Dtype> > GetConvolutionLayer(
   }
 }
 
-REGISTER_LAYER_CREATOR(Convolution, GetConvolutionLayer);
+//REGISTER_LAYER_CREATOR(Convolution, GetConvolutionLayer);
 
 // Get pooling layer according to engine.
 template <typename Dtype>
@@ -64,7 +64,7 @@ shared_ptr<Layer<Dtype> > GetPoolingLayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(Pooling, GetPoolingLayer);
+//REGISTER_LAYER_CREATOR(Pooling, GetPoolingLayer);
 
 // Get relu layer according to engine.
 template <typename Dtype>
@@ -87,7 +87,7 @@ shared_ptr<Layer<Dtype> > GetReLULayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(ReLU, GetReLULayer);
+//REGISTER_LAYER_CREATOR(ReLU, GetReLULayer);
 
 // Get sigmoid layer according to engine.
 template <typename Dtype>
@@ -110,7 +110,7 @@ shared_ptr<Layer<Dtype> > GetSigmoidLayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(Sigmoid, GetSigmoidLayer);
+//REGISTER_LAYER_CREATOR(Sigmoid, GetSigmoidLayer);
 
 // Get softmax layer according to engine.
 template <typename Dtype>
@@ -133,7 +133,7 @@ shared_ptr<Layer<Dtype> > GetSoftmaxLayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(Softmax, GetSoftmaxLayer);
+//REGISTER_LAYER_CREATOR(Softmax, GetSoftmaxLayer);
 
 // Get tanh layer according to engine.
 template <typename Dtype>
@@ -156,7 +156,7 @@ shared_ptr<Layer<Dtype> > GetTanHLayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(TanH, GetTanHLayer);
+//REGISTER_LAYER_CREATOR(TanH, GetTanHLayer);
 
 #ifdef WITH_PYTHON_LAYER
 template <typename Dtype>
@@ -183,7 +183,7 @@ shared_ptr<Layer<Dtype> > GetPythonLayer(const LayerParameter& param) {
   }
 }
 
-REGISTER_LAYER_CREATOR(Python, GetPythonLayer);
+//REGISTER_LAYER_CREATOR(Python, GetPythonLayer);
 #endif
 
 // Layers that use their constructor as their default creator should be

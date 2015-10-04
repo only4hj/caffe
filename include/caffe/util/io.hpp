@@ -7,7 +7,10 @@
 #include "google/protobuf/message.h"
 #include "hdf5.h"
 #include "hdf5_hl.h"
+
+#ifdef _MSC_VER
 #include "mkstemp.h"
+#endif
 
 #include "caffe/blob.hpp"
 #include "caffe/common.hpp"
